@@ -9,9 +9,22 @@
 <?php
 session_start();
 
+include('../config.php');
+
 // cek apakah yang mengakses halaman ini sudah login
 if ($_SESSION['level'] == "admin" | $_SESSION['level'] == "") {
     header("location:gagal_login");
+}else {
+    $mysqli = "SELECT nisn FROM pendaftaran WHERE nisn='$_SESSION[username]'";
+    $result = mysqli_query($db, $mysqli);
+    $cekdata = mysqli_fetch_assoc($result);
+    if ($cekdata > 0) {
+        echo '<script language="javascript">
+              alert ("Anda Telah Mengisi Biodata");
+              window.location="index.php";
+              </script>';
+        exit();
+    }
 }
 
 ?>
